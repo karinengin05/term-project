@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geomatics Engineering Calculations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="project.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="header-bg text-center">
+        <div class="container">
+            <h1 class="fw-bold">📍 Geomatics Calculation Tool</h1>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-fund" type="button">Fundamental Calculations</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-matrix" type="button">Matrix Calculation</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-trig" type="button">Angle Unit Conversion & Trigonometry</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            
+            <div class="tab-pane fade show active" id="pills-fund">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card p-4">
+                            <h4 class="card-title text-primary mb-3">Fundamental Calculations</h4>
+                            <p class="text-muted small">Calculates the coordinates of point B using the coordinates of point A, distance, and azimuth.</p>
+                            
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Y (m)</label>
+                                        <input type="number" class="form-control" id="y_coord" placeholder="1002">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">X (m)</label>
+                                        <input type="number" class="form-control" id="x_coord" placeholder="1030">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Distance (m)</label>
+                                        <input type="number" class="form-control" id="distance" placeholder="30.18">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Azimuth (Grad)</label>
+                                        <input type="number" class="form-control" id="azimuth" placeholder="105.699">
+                                    </div>
+                                </div>
+                                <div class="d-grid mt-4">
+                                    <button type="button" class="btn btn-primary btn-custom" onclick="calculateCoord()">Calculate</button>
+                                </div>
+                            </form>
+
+                            <div id="coordResult" class="result-box">
+                                <h6 class="text-primary">Results:</h6>
+                                <p class="mb-1"><strong>ΔY:</strong> <span id="deltaY"></span> m</p>
+                                <p class="mb-3"><strong>ΔX:</strong> <span id="deltaX"></span> m</p>
+                                <h5 class="text-success m-0">Yb: <span id="newY"></span> m</h5>
+                                <h5 class="text-success">Xb: <span id="newX"></span> m</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-matrix">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card p-4">
+                            <h4 class="card-title text-danger mb-3">Matrix Calculation</h4>
+                            <p class="text-muted small">Multiplies two matrices with maximum dimensions of 5x5.</p>
+
+                            <div class="row g-3 mb-4 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label small">Matrix A Size (Rows x Columns)</label>
+                                    <div class="input-group">
+                                        <select id="matA_rows" class="form-select" onchange="generateMatrices()">
+                                            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                                        </select>
+                                        <span class="input-group-text">x</span>
+                                        <select id="matA_cols" class="form-select" onchange="generateMatrices()">
+                                            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-center d-none d-md-block">
+                                    <span class="display-6 text-muted">×</span>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label small">Matrix B Size (Rows x Columns)</label>
+                                    <div class="input-group">
+                                        <select id="matB_rows" class="form-select" onchange="generateMatrices()">
+                                            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                                        </select>
+                                        <span class="input-group-text">x</span>
+                                        <select id="matB_cols" class="form-select" onchange="generateMatrices()">
+                                            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="matrixWarning" class="alert alert-warning small py-2" style="display:none;">
+                                <i class="bi bi-exclamation-triangle"></i> For matrix multiplication, the number of columns in Matrix A must equal the number of rows in Matrix B!
+                            </div>
+
+                            <div class="row justify-content-center text-center">
+                                <div class="col-md-5 mb-3">
+                                    <h6>Matris A</h6>
+                                    <div id="matrixA_container" class="matrix-bracket"></div>
+                                </div>
+                                <div class="col-md-5 mb-3">
+                                    <h6>Matris B</h6>
+                                    <div id="matrixB_container" class="matrix-bracket"></div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-danger btn-custom w-100 mt-3" onclick="multiplyMatrices()">Multiply Matrices</button>
+
+                            <div id="matrixResult" class="result-box text-center" style="border-color: #dc3545;">
+                                <h6 class="text-danger">Result Matrix:</h6>
+                                <div id="matrixC_container" class="matrix-bracket bg-white"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-trig">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card p-4">
+                            <h4 class="card-title text-info mb-3">Angle Unit Conversion & Trigonometry</h4>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6 col-md-3"><input type="number" class="form-control angle-input" placeholder="Angle 1 (°)"></div>
+                                <div class="col-6 col-md-3"><input type="number" class="form-control angle-input" placeholder="Angle 2 (°)"></div>
+                                <div class="col-6 col-md-3"><input type="number" class="form-control angle-input" placeholder="Angle 3 (°)"></div>
+                                <div class="col-6 col-md-3"><input type="number" class="form-control angle-input" placeholder="Angle 4 (°)"></div>
+                            </div>
+                            <button class="btn btn-info text-white btn-custom w-100" onclick="calculateTrig()">Calculate</button>
+                            <div id="trigResult" class="table-responsive mt-4" style="display:none;">
+                                <table class="table table-hover table-bordered text-center align-middle">
+                                    <thead class="table-light"><tr><th>Degree</th><th>Grad</th><th>Sin</th><th>Cos</th><th>Tan</th></tr></thead>
+                                    <tbody id="trigTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <footer class="text-center mt-5 text-muted small">
+            &copy; 2025 Geomatics Lab Project
+            <p>Karin Engin-010240515</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="project.js"></script>
+</body>
+</html>

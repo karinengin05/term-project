@@ -1,0 +1,60 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+.header-bg {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 2.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+.btn-custom {
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 600;
+}
+.result-box {
+    background-color: #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+    border-left: 6px solid #1e3c72;
+}
+.nav-pills .nav-link {
+    color: #555;
+    border-radius: 50px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    margin-bottom: 5px;
+}
+.nav-pills .nav-link.active {
+    background-color: #1e3c72;
+    color: white;
+}
+.matrix-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin: 2px;
+}
+.matrix-bracket {
+    display: inline-block;
+    vertical-align: middle;
+    border-left: 2px solid #333;
+    border-right: 2px solid #333;
+    border-radius: 10px;
+    padding: 5px;
+}
